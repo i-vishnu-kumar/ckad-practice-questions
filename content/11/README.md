@@ -35,7 +35,7 @@ metadata:
 spec:
   podSelector:
     matchLabels:
-      tier: db
+      tier: db # This is taken from the pod description, nut in the question, we have to allow traffic from pods with both the labels, so two podSelectors are defined
   policyTypes:
   - Ingress
   ingress:
@@ -43,7 +43,10 @@ spec:
       - podSelector:
           matchLabels:
             tier: web
-      ports:
+      - podSelector:
+          matchLabels:
+            tier: db  #As in question the request can come from another pod with the same label
+      ports: # Can also work without declaring the ports for CKAD
         - port: 3306
           protocol: TCP
 
